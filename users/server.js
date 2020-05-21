@@ -5,11 +5,9 @@ if (process.env.MONGO_DB_URI){
     dbConn = process.env.MONGO_DB_URI;
 } else {
     dbConn = 'mongodb://users-mongodb:27111'
-    console.log("bleugh!");
 }
 
-// user + pass to be added
-console.log(dbConn);
+//TO-DO: Enable auth. with user/psw
 mongoose.connect(dbConn, { useNewUrlParser: true, 
                            autoIndex: false,
                            useFindAndModify: false,
