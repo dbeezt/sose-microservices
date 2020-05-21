@@ -8,4 +8,19 @@ app.get('/', (req, res) => {
     res.json({ msg: 'reviews' });
 });
 
+app.get('/reviews', async (req, res) => {
+    const reviews = await Review.find({
+        // find own by ID? all? etc...
+    })
+    res.json(reviews);
+});
+
+app.post('/reviews', async (req, res) => {
+    const review = new Review({
+        name: req.body.name
+    });
+    await review.save();
+    res.json(review);
+});
+
 module.exports = app;
