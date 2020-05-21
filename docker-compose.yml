@@ -15,20 +15,58 @@ services:
     depends_on: 
       - users-mongodb
     environment:
-      - MONGO_DB_URI=mongodb://users-mongodb:27017
+      - MONGO_DB_URI=mongodb://users-mongodb:27111
       - log_level=0
 
   users-mongodb:
     image: mongo:3.6.18-xenial
     volumes:
-      - ./userdata:/data/db
+      - ./users/userdata:/data/db
+    command: mongod --port 27111
     ports:
-      - "27017:27017"
+      - "27111:27017"
     environment:
       # - MONGO_INITDB_ROOT_USERNAME=admin
       # - MONGO_INITDB_ROOT_PASSWORD=admin
       - MONGO_INITDB_DATABASE=users
-    restart: on-failure
+
+  movies:
+    build: './movies'
+    image: 'sose-movies:0.0.1'
+    ports:
+      - "3222:3000"
+    depends_on: 
+      - movies-mongodb
+    environment:
+      - MONGO_DB_URI=mongodb://movies-mongodb:27222
+      - log_level=0
+  
+  movies-mongodb:
+    image: mongo:3.6.18-xenial
+    volumes:
+      - ./movies/moviedata:/data/db
+    command: mongod --port 27222
+    ports:
+      - "27222:27017"
+
+  reviews:
+    build: './reviews'
+    image: 'sose-reviews:0.0.1'
+    ports:
+        - "3333:3000"
+    depends_on: 
+        - reviews-mongodb
+    environment:
+        - MONGO_DB_URI=mongodb://reviews-mongodb:27333
+        - log_level=0
+
+  reviews-mongodb:
+    image: mongo:3.6.18-xenial
+    volumes:
+        - ./reviews/reviewdata:/data/db
+    command: mongod --port 27333
+    ports:
+      - "27333:27017"
 
   nginx:
     image: nginx:1.17.10-alpine
@@ -40,6 +78,10 @@ services:
     depends_on:
       - web
       - users
+      - movies
+      - reviews
 
 volumes:
   userdata:
+  moviedata:
+  reviewdata:
