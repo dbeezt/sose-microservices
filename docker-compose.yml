@@ -38,8 +38,9 @@ services:
     depends_on: 
       - movies-mongodb
     environment:
-      - MONGO_DB_URI=mongodb://movies-mongodb:27222
-      - log_level=0
+      # - MONGO_INITDB_ROOT_USERNAME=admin
+      # - MONGO_INITDB_ROOT_PASSWORD=admin
+      - MONGO_INITDB_DATABASE=users
   
   movies-mongodb:
     image: mongo:3.6.18-xenial
@@ -57,8 +58,9 @@ services:
     depends_on: 
         - reviews-mongodb
     environment:
-        - MONGO_DB_URI=mongodb://reviews-mongodb:27333
-        - log_level=0
+      # - MONGO_INITDB_ROOT_USERNAME=admin
+      # - MONGO_INITDB_ROOT_PASSWORD=admin
+      - MONGO_INITDB_DATABASE=users
 
   reviews-mongodb:
     image: mongo:3.6.18-xenial
