@@ -15,20 +15,20 @@ services:
     depends_on: 
       - users-mongodb
     environment:
-      - MONGO_DB_URI=mongodb://users-mongodb:27111
+      - MONGO_DB_URI=mongodb://user-mongodb:27111
       - log_level=0
 
-  users-mongodb:
+  user-mongodb:
     image: mongo:3.6.18-xenial
     volumes:
       - ./users/userdata:/data/db
     command: mongod --port 27111 --quiet
     ports:
       - "27111:27017"
-    environment:
+    # environment:
       # - MONGO_INITDB_ROOT_USERNAME=admin
       # - MONGO_INITDB_ROOT_PASSWORD=admin
-      - MONGO_INITDB_DATABASE=users
+      # - MONGO_INITDB_DATABASE=users
 
   movies:
     build: './movies'
@@ -36,21 +36,21 @@ services:
     ports:
       - "3222:3000"
     depends_on: 
-      - movies-mongodb
+      - movie-mongodb
     environment:
-      - MONGO_DB_URI=mongodb://users-mongodb:27111
+      - MONGO_DB_URI=mongodb://movie-mongodb:27222
   
-  movies-mongodb:
+  movie-mongodb:
     image: mongo:3.6.18-xenial
     volumes:
       - ./movies/moviedata:/data/db
     command: mongod --port 27222 --quiet
     ports:
       - "27222:27017"
-    environment:
+    # environment:
       # - MONGO_INITDB_ROOT_USERNAME=admin
       # - MONGO_INITDB_ROOT_PASSWORD=admin
-      - MONGO_INITDB_DATABASE=users
+      # - MONGO_INITDB_DATABASE=users
 
   reviews:
     build: './reviews'
@@ -58,19 +58,21 @@ services:
     ports:
         - "3333:3000"
     depends_on: 
-        - reviews-mongodb
+        - review-mongodb
+    environment:
+      - MONGO_DB_URI=mongodb://review-mongodb:27333
 
-  reviews-mongodb:
+  review-mongodb:
     image: mongo:3.6.18-xenial
     volumes:
         - ./reviews/reviewdata:/data/db
     command: mongod --port 27333 --quiet
     ports:
       - "27333:27017"
-    environment:
-      # - MONGO_INITDB_ROOT_USERNAME=admin
-      # - MONGO_INITDB_ROOT_PASSWORD=admin
-      - MONGO_INITDB_DATABASE=users
+    # environment:
+    #   # - MONGO_INITDB_ROOT_USERNAME=admin
+    #   # - MONGO_INITDB_ROOT_PASSWORD=admin
+    #   - MONGO_INITDB_DATABASE=users
 
   nginx:
     image: nginx:1.17.10-alpine
