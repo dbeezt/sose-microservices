@@ -13,7 +13,7 @@ services:
     ports:
       - "3111:3000"
     depends_on: 
-      - users-mongodb
+      - user-mongodb
     environment:
       - MONGO_DB_URI=mongodb://user-mongodb:27111
       - log_level=0
