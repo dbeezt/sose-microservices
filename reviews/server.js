@@ -4,10 +4,9 @@ const app = require('./src/app');
 if (process.env.MONGO_DB_URI){
     dbConn = process.env.MONGO_DB_URI;
 } else {
-    dbConn = 'mongodb://reviews-mongodb:27333'
+    dbConn = 'mongodb://review-mongodb:27333'
 }
 
-//TO-DO: Enable auth. with user/psw
 mongoose.connect(dbConn, { useNewUrlParser: true, 
                            autoIndex: false,
                            useFindAndModify: false,
