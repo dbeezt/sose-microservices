@@ -14,10 +14,11 @@
     "url": "https://github.com/dbeezt/sose-microservices"
   },
   "dependencies": {
-    "mongoose": "^5.9.14",
     "body-parser": "^1.19.0",
     "express": "^4.17.1",
-    "uuid": "^8.1.0",
+    "express-session": "^1.17.1",
+    "cookie-parser": "^1.4.5",
+    "morgan": "^1.10.0",
     "pug": "^2.0.4"
   }
 }
