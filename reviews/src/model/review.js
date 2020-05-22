@@ -1,13 +1,13 @@
 const mongoose = require('mongoose')
 const { v4: uuidv4 } = require('uuid');
 
-const review = new mongoose.Schema({
+const ReviewSchema = new mongoose.Schema({
     _id: { type: String, default: uuidv4()},
-    authorID: String,
-    authorUsername: String,
-    authorEmail: String,
-    rating: String,
+    movieTitle: String,
+    movieYear: Number,
+    author: String,
+    rating: { type: Number, required: false, min: 0.0, max: 10.0 },
     postDate: { type: Date, default: Date.now},
 });
 
-module.exports = mongoose.model('review', review)
+module.exports = mongoose.model('Review', ReviewSchema)
