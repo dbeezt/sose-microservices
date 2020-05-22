@@ -1,0 +1,17 @@
+extends layout.pug
+
+block content
+  .row
+    .col-12
+      form(method='post')
+        label(for='username', style='text-align:left;') Username:
+          br
+          input(type='text', name='username', value='', required, autofocus, style='width:100%;')
+          button.button(formaction='/login', style='width:100%;') Login
+      form(method='get')
+        p Don't have an account?
+          button.button(formaction='/register', style='width:100%;') Register
+
+  -if(id != null){
+    script.alert("User #{id} wasn't found")
+  -}
