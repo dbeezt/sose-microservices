@@ -1,26 +1,37 @@
-const bodyParser = require('body-parser');
+const session = require("express-session");
+const bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser");
 const express = require('express');
 const app = express();
-const User = require('./model/user');
+const UserController = require('./controller/user');
 
+app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
+
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+  if(req.method === "OPTIONS"){
+      res.header("Access-Control-Allow-Methods", "GET, PUT, POST, PATCH, DELETE");
+      return res.status(200).json({});
+  };
+  next();
+});
+
+app.use(cookieParser());
+app.use(session(
+    {'secret': 'test',
+     'saveUninitialized': true,
+     'resave': true}
+));
+
 app.get('/', (req, res) => {
     res.json({ msg: 'users' });
 });
 
-app.get('/users', async (req, res) => {
-    const users = await User.find({
-        // find own by ID? all? etc...
-    })
-    res.json(users);
-});
-
-app.post('/users', async (req, res) => {
-    const user = new User({
-        name: req.body.name
-    });
-    await user.save();
-    res.json(user);
-});
+app.get('/users', UserController.ListAllUsers);
+app.get('/user/:username', UserController.ListOneUser);
+app.post('/register', UserController.Register);
+app.post('/login', UserController.Login);
 
 module.exports = app;
