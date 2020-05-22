@@ -22,7 +22,7 @@ services:
     image: mongo:3.6.18-xenial
     volumes:
       - ./users/userdata:/data/db
-    command: mongod --port 27111
+    command: mongod --port 27111 --quiet
     ports:
       - "27111:27017"
     environment:
@@ -38,17 +38,19 @@ services:
     depends_on: 
       - movies-mongodb
     environment:
-      # - MONGO_INITDB_ROOT_USERNAME=admin
-      # - MONGO_INITDB_ROOT_PASSWORD=admin
-      - MONGO_INITDB_DATABASE=users
+      - MONGO_DB_URI=mongodb://users-mongodb:27111
   
   movies-mongodb:
     image: mongo:3.6.18-xenial
     volumes:
       - ./movies/moviedata:/data/db
-    command: mongod --port 27222
+    command: mongod --port 27222 --quiet
     ports:
       - "27222:27017"
+    environment:
+      # - MONGO_INITDB_ROOT_USERNAME=admin
+      # - MONGO_INITDB_ROOT_PASSWORD=admin
+      - MONGO_INITDB_DATABASE=users
 
   reviews:
     build: './reviews'
@@ -57,18 +59,18 @@ services:
         - "3333:3000"
     depends_on: 
         - reviews-mongodb
-    environment:
-      # - MONGO_INITDB_ROOT_USERNAME=admin
-      # - MONGO_INITDB_ROOT_PASSWORD=admin
-      - MONGO_INITDB_DATABASE=users
 
   reviews-mongodb:
     image: mongo:3.6.18-xenial
     volumes:
         - ./reviews/reviewdata:/data/db
-    command: mongod --port 27333
+    command: mongod --port 27333 --quiet
     ports:
       - "27333:27017"
+    environment:
+      # - MONGO_INITDB_ROOT_USERNAME=admin
+      # - MONGO_INITDB_ROOT_PASSWORD=admin
+      - MONGO_INITDB_DATABASE=users
 
   nginx:
     image: nginx:1.17.10-alpine
