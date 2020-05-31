@@ -14,7 +14,7 @@ exports.ListAllUsers = (req, res, next) => {
             }else{
                 console.log(users);
             };
-            res.status(200).json({});
+            res.status(200).json({users});
         });
 };
 
