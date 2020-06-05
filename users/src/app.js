@@ -26,12 +26,19 @@ app.use(session(
 ));
 
 app.get('/', (req, res) => {
-    res.json({ msg: 'users' });
+    res.json({ msg: 'testing users' });
 });
 
 app.get('/users', UserController.ListAllUsers);
 app.get('/user/:username', UserController.ListOneUser);
-app.post('/register', UserController.Register);
+
+app.get('/login', UserController.LoadLoginPage);
+app.get('/register', UserController.LoadRegisterPage);
+
 app.post('/login', UserController.Login);
+app.post('/register', UserController.Register);
+
+app.get('/logout', UserController.Logout);
+app.post('/logout', UserController.Logout);
 
 module.exports = app;
