@@ -5,13 +5,13 @@ services:
     build: './web'
     image: 'sose-web:0.0.1'
     ports:
-      - "3000:3000"
+      - "3111:3000"
 
   users:
     build: './users'
     image: 'sose-users:0.0.1'
     ports:
-      - "3111:3000"
+      - "3222:3000"
     depends_on: 
       - user-mongodb
     environment:
@@ -22,7 +22,7 @@ services:
     image: mongo:3.6.18-xenial
     volumes:
       - ./users/userdata:/data/db
-    command: mongod --port 27111 --quiet
+    command: mongod --port 27111 --quiet --nojournal
     ports:
       - "27111:27017"
     # environment:
@@ -34,7 +34,7 @@ services:
     build: './movies'
     image: 'sose-movies:0.0.1'
     ports:
-      - "3222:3000"
+      - "3333:3000"
     depends_on: 
       - movie-mongodb
     environment:
@@ -44,7 +44,7 @@ services:
     image: mongo:3.6.18-xenial
     volumes:
       - ./movies/moviedata:/data/db
-    command: mongod --port 27222 --quiet
+    command: mongod --port 27222 --quiet --nojournal
     ports:
       - "27222:27017"
     # environment:
@@ -56,7 +56,7 @@ services:
     build: './reviews'
     image: 'sose-reviews:0.0.1'
     ports:
-        - "3333:3000"
+        - "3444:3000"
     depends_on: 
         - review-mongodb
     environment:
@@ -66,7 +66,7 @@ services:
     image: mongo:3.6.18-xenial
     volumes:
         - ./reviews/reviewdata:/data/db
-    command: mongod --port 27333 --quiet
+    command: mongod --port 27333 --quiet --nojournal
     ports:
       - "27333:27017"
     # environment:
