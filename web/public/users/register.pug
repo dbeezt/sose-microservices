@@ -1,4 +1,4 @@
-extends header.pug
+extends ../header.pug
 
 block content
   .row
@@ -14,5 +14,5 @@ block content
         button.button(formaction='http://localhost:8080/users/register', style='width:100%;') Register
       form(method='get')
         p Already have an account?
-          button.button(formaction='http://localhost:8080/users/login', style='width:100%;') Login
+          button.button(formaction='http://localhost:8080/login', style='width:100%;') Login
 
