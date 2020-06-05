@@ -18,6 +18,9 @@ app.use((req, res, next) => {
   next();
 });
 
+app.set('view engine', 'pug');
+app.set('views', path.join(__dirname, 'views'));
+
 app.use(cookieParser());
 app.use(cookieSession(
     {name: 'session',
@@ -25,13 +28,13 @@ app.use(cookieSession(
 ));
 
 app.get('/', (req, res) => {
-    res.json({ msg: 'reviews' });
+    res.redirect('http://localhost:8080/movies');
 });
 
-app.get('/movie', ReviewController.ListAllReviewsForMovie);
-// app.get('/movie/:title/review/:id', ReviewController.ListOneReview);
-// app.post('/movie/:title/review', ReviewController.AddReview);
-// app.post('/movie/:title/review/update/:id', ReviewController.UpdateReview);
-// app.post('/movie/:title/review/delete/:id', ReviewController.DeleteReview);
+// app.get('/movie/:movie', ReviewController.ListAllReviewsForMovie);
+app.get('/movie/:id', ReviewController.ListSingleReview);
+app.post('/movie', ReviewController.AddReview);
+app.post('/update/:id', ReviewController.UpdateReview);
+app.post('/delete/:id', ReviewController.DeleteReview);
 
 module.exports = app;
