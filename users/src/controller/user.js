@@ -87,14 +87,10 @@ exports.Register = (req, res, next) => {
                     email: req.body.email
                 });
                 user.save()
-                
-            .then(result => {
-                req.session.user = user.username;
-                console.log("SESSION: " + req.session.user);
-                // res.redirect('http://localhost:3000');
-                res.status(201).json({
-                    message: "Created User " + user.username
-                });
+            .then(user => {
+                res.cookie('user', user.username);
+                res.cookie('guest', false);
+                res.redirect('http://localhost:8080/dashboard');
             })
             .catch(err => {
                 console.log(err);
@@ -107,8 +103,5 @@ exports.Register = (req, res, next) => {
 };
 
 exports.LoadRegisterPage = (req, res, next) => {
-    if(req.session.user != null){
-        req.session.destroy(() => {});
-    }
     res.render('register');
 }

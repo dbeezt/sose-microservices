@@ -28,10 +28,10 @@ app.get('/', (req, res) => {
     res.json({ msg: 'reviews' });
 });
 
-app.get('/movie/:title/reviews', ReviewController.ListAllReviewsForMovie);
-app.get('/movie/:title/review/:id', ReviewController.ListOneReview);
-app.post('/movie/:title/review', ReviewController.AddReview);
-app.post('/movie/:title/review/update/:id', ReviewController.UpdateReview);
-app.post('/movie/:title/review/delete/:id', ReviewController.DeleteReview);
+app.get('/movie', ReviewController.ListAllReviewsForMovie);
+// app.get('/movie/:title/review/:id', ReviewController.ListOneReview);
+// app.post('/movie/:title/review', ReviewController.AddReview);
+// app.post('/movie/:title/review/update/:id', ReviewController.UpdateReview);
+// app.post('/movie/:title/review/delete/:id', ReviewController.DeleteReview);
 
 module.exports = app;
