@@ -5,6 +5,10 @@ const cookieParser = require("cookie-parser");
 const path = require('path');
 const app = express();
 
+const userService = 'http://localhost:8080/users'
+const movieService = 'http://localhost:8080/movies'
+const reviewService = 'http://localhost:8080/reviews'
+
 // const userRoute = require('LINK_TO_USER_MICROSERVICE');
 
 // app.use(bodyParser.urlencoded({extended: false}));
@@ -19,7 +23,7 @@ app.use(cookieSession(
 
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, '../public'));
-// app.use(express.static(__dirname + '/www'));
+app.use(express.static(__dirname + '/www'));
 app.use('/res', express.static(__dirname + '../resources'));
 
 app.use((req, res, next) => {
@@ -33,7 +37,6 @@ app.use((req, res, next) => {
 });
 
 app.get('/login', (req, res) => {
-    console.log(req.cookies);
     if(req.cookies['users'] && req.cookies['guest'] == false){
         res.render('dashboard', {user: req.cookies['user']});
     }else{
@@ -41,8 +44,16 @@ app.get('/login', (req, res) => {
     }
 });
 
+app.get('/register', (req, res) => {
+    res.render('users/register');
+});
+
 app.get('/dashboard', (req, res) => {
     res.render('dashboard', {user: req.cookies['user'], guest: req.cookies.guest});
+});
+
+app.get('/movies', (req, res) => {
+    res.render('movies', {movies: movies})
 });
 
 app.get('/', (req, res) => { 
