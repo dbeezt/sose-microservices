@@ -1,0 +1,16 @@
+extends ../header.pug
+
+block content
+  .row
+    .col-12
+      form(method='post')
+        label(for='username', style='text-align:left;') Username:
+          br
+          input(type='text', name='username', value='', required, autofocus, style='width:100%;')
+        label(for='password', style='text-align:left;') Password:
+          br
+          input(type='password', name='password', value='', required, autofocus, style='width:100%;')
+        button.button(formaction='http://localhost:8080/users/login', style='width:100%;') Login
+      form(method='get')
+        p Don't have an account?
+          button.button(formaction='http://localhost:8080/users/register', style='width:100%;') Register
