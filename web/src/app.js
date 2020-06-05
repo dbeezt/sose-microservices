@@ -9,8 +9,6 @@ const userService = 'http://localhost:8080/users'
 const movieService = 'http://localhost:8080/movies'
 const reviewService = 'http://localhost:8080/reviews'
 
-// const userRoute = require('LINK_TO_USER_MICROSERVICE');
-
 // app.use(bodyParser.urlencoded({extended: false}));
 // app.use(bodyParser.json);
 // app.use(morgan('dev'));
