@@ -88,7 +88,7 @@ exports.UpdateReview = (req, res, next) => {
     id = path[2];
     console.log(updateOperations);
 
-     Review.findOneAndUpdate({ _id: id }, { $set: updateOperations })
+    Review.findOneAndUpdate({ _id: id }, { $set: updateOperations })
     .exec()
     .then(review => {
         console.log(review);
@@ -112,9 +112,9 @@ exports.DeleteReview = (req, res, next) => {
     .exec()
     .then(review => {
         if(review){
-            res.status(202).json({message: "Deleted review" + id});
+            res.status(202).json({message: "Deleted Review: " + id});
         }else{
-            res.status(500).json({message: "review '" + id + "' doesn't exist"});
+            res.status(500).json({message: "Review '" + id + "' doesn't exist"});
         };    
     });
 }
