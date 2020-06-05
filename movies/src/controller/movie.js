@@ -18,9 +18,9 @@ exports.LoadMoviePage = (req, res, next, movie) => {
     res.render('movie', {movie: movie});
 };
 
-exports.PullReviewsForMovie = (req, res) => {
-    reviewsUrl = 'http://localhost:8080/reviews';
-};
+// exports.PullReviewsForMovie = (req, res) => {
+//     reviewsUrl = 'http://localhost:8080/reviews';
+// };
 
 exports.ListOneMovie = (req, res) => {
     title = req.body.title;
@@ -30,7 +30,7 @@ exports.ListOneMovie = (req, res) => {
             //movie.title = CapitaliseFirstLettersOfWords(movie.title);
             if(movie){
                 console.log(movie);
-                res.render('movie', {movie: movie});
+                res.render('movie', {movie: movie, guest: req.cookies['guest']});
             }else{
                 res.render('movie', {movie: "No Movie Found"});
             };    
@@ -46,8 +46,6 @@ exports.AddMovie = (req, res, next) => {
         .exec()
         .then(movie => {
             if(movie.length >= 1){
-                // res.render('http://localhost:3000/movies',
-                // {movie});
                 res.status(200).json({
                     message: "Movie already exists"
                 });
