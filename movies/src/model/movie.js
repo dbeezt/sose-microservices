@@ -9,6 +9,7 @@ const MovieSchema = new mongoose.Schema({
     genre: { type: String, enum: genres },
     year: { type: Number, min: 1874, max: new Date().getFullYear() },
     rating: { type: Number, required: false, min: 0.0, max: 10.0 },
+    reviews: []
 });
 
 module.exports = mongoose.model('Movie', MovieSchema)
