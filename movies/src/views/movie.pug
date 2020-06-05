@@ -1,0 +1,29 @@
+extends header.pug
+
+block content
+  .row
+    .col-12
+      .card(style='width: 40rem; margin: 20px;')
+        .card-body
+          h5.card-title #{movie.title}
+          h6.card-subtitle.mb-2.text-muted #{movie.year}
+          h6.card-subtitle.mb-3.text-muted #{movie.genre}
+          h6.card-subtitle.mb-4.text-muted #{movie.rating}
+          p.card-text
+            - if(movie.description){
+              | #{movie.description}
+            - }else{
+              | No description provided.
+            - }
+          a.card-link(href='http://localhost:8080/movie/' + movie._id + '/review', style='float: right;') Post Review
+
+          - if(movie.reviews.length >= 1){
+            br
+            h6.card-title.text-underline Reviews:      
+            each review in movie.reviews
+              br
+              p.card-text #{review}
+          - }else{
+              p.card-test No Reviews
+          - }
+
