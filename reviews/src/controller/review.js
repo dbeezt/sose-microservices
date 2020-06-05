@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const Review = require("../model/review");
 const { v4: uuidv4 } = require('uuid');
+const request = require('request');
 
 exports.ListAllReviewsForMovie = (req, res, next) => {
     var path = req.path.split("/");
@@ -15,45 +16,53 @@ exports.ListAllReviewsForMovie = (req, res, next) => {
     });
 };
 
-exports.ListOneReview = (req, res) => {
+exports.ListSingleReview = (req, res) => {
     var path = req.path.split("/");
-    movieTitle = path[2];
-    author = path[4],
-     Review.findOne({ movieTitle: movieTitle, author: author })
-        .then(review => {
-            if(review){
-                res.status(200).json({message: "Found " + {review}});
-            }else{
-                res.status(500).json({message: "review '" + review.title + "' doesn't exist"});
-            };    
-        });
+    id = path[2];
+    console.log(id);
+    Review.findOne({ _id: id })
+    .then(review => {
+        if(review){
+            res.status(200).json({message: review});
+        }else{
+            res.status(500).json({message: "review '" + id + "' doesn't exist"});
+        };    
+    });
 };
 
 
 exports.AddReview = (req, res, next) => {
-    author = req.session.user || req.body.author || "unknown"
-     Review.find({ title: req.body.title, author: author})
+    const author = req.session.user || req.body.author || "unknown"
+     Review.find({ movie: req.body.title, author: author})
         .exec()
-        .then( review => {
+        .then(review => {
             if(review.length >= 1){
-                // res.render('http://localhost:3000/ reviews',
-                // {review});
                 res.status(200).json({
-                    message: " review already exists"
+                    message: req.body.author + " has already submitted a review for " + req.body.title
                 });
             }else{
-                const  review = new  review ({
+                const review = new Review({
                     _id: uuidv4(),
-                    author: author,
-                    movieTitle: req.body.title,
+                    movie: req.body.title,
+                    author: req.body.author,
+                    content: req.body.content,
                     rating: req.body.rating
                 });
-                 review.save()
-                
-            .then(result => {
-                // res.redirect('http://localhost:3000');
+            review.save()      
+            .then(review => {
+                console.log(review);
+                request.post({
+                    headers: {'content-type': 'application/json'},
+                    url: 'http://127.0.0.1:8080/movies/update/' +  review.movie,
+                    form: {
+                        "reviews": review
+                    }
+                });
+            })    
+            .then(review => {
+                console.log(review);
                 res.status(201).json({
-                    message: "Created review of " + review.movieTitle + " from author " + review.author
+                    message: "Created review of " + req.body.title + " from author " + req.body.author
                 });
             })
             .catch(err => {
@@ -73,11 +82,13 @@ exports.UpdateReview = (req, res, next) => {
     }
 
     var path = req.path.split("/");
-    movieTitle = path[2];
-     Review.findOneAndUpdate({ title: title }, { $set: updateOperations })
+    id = path[2];
+    console.log(updateOperations);
+
+     Review.findOneAndUpdate({ _id: id }, { $set: updateOperations })
     .exec()
-    .then(result => {
-        //res.redirect("/ reviews")
+    .then(review => {
+        console.log(review);
         res.status(202).json({
             message: "Updated " +  review.id
         })
@@ -92,14 +103,15 @@ exports.UpdateReview = (req, res, next) => {
 
 exports.DeleteReview = (req, res, next) => {
     var path = req.path.split("/");
-    title = path[2];
-     Review.deleteOne({ title: title })
-        .exec()
-        .then( review => {
-            if( review){
-                res.status(203).json({message: "Deleted " + { review}});
-            }else{
-                res.status(500).json({message: " review '" +  review.title + "' doesn't exist"});
-            };    
-        });
+    id = path[2];
+
+    Review.deleteOne({ _id: id })
+    .exec()
+    .then(review => {
+        if(review){
+            res.status(202).json({message: "Deleted review" + id});
+        }else{
+            res.status(500).json({message: "review '" + id + "' doesn't exist"});
+        };    
+    });
 }
