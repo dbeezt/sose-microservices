@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const User = require("../model/user");
+const cookieParser = require('cookie-parser');
 const { v4: uuidv4 } = require('uuid');
 
 exports.AuthUser = (req, res, next) => {
@@ -39,39 +40,33 @@ exports.Login = (req, res, next) => {
     })
     .exec()
     .then(user => {
-        if(user.password == req.body.password){
-            console.log("real psw: " + user.password + " / body: " + req.body.password);
-            req.session.user = user.username;
-            // res.redirect('http://localhost:3000/login');
-            res.status(200).json({
-                message: "Logged in as " + user.username
-            });
+        if(user){
+            if(user.password == req.body.password){
+                res.cookie('user', user.username);
+                res.cookie('guest', false);
+                res.redirect('http://localhost:8080/dashboard');
+            }else{
+                res.cookie('user', 'Guest');
+                res.cookie('guest', true);
+                res.redirect('http://localhost:8080/login');
+            }
         }else{
-            req.session.destroy(() => {
-                console.log("SESSION DESTROYED");
-            })
-            res.status(500).json({
-                message: user.username + " doesn't exist or password was incorrect"
-            });
-            // res.render('http://localhost:3000/login', 
-            //            {username: req.body.username});
+            res.cookie('user', 'Guest');
+            res.cookie('guest', true);
+            res.redirect('http://localhost:8080/login');
         }
     })
 }
 
 exports.LoadLoginPage = (req, res, next) => {
-    const response = {
-        session: req.session.user
-    };
-    req.session.destroy(() => {
-
-    });
-    res.render('login', {response});
+    const userInSession = req.cookies['user'];
+    res.render('login', {user: userInSession,});
 };
 
 exports.Logout = (req, res, next) => {
-    req.session.destroy(() => {});
-    res.redirect('http://localhost:3000/login');
+    res.cookie('user', 'Guest');
+    res.cookie('guest', true);
+    res.redirect('http://localhost:8080/login');
 }
 
 exports.Register = (req, res, next) => {
