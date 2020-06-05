@@ -26,10 +26,10 @@ exports.ListOneUser = (req, res) => {
         .then(user => {
             if(user){
                 console.log("Found " + user.username);
-                res.status(200).json({});
+                res.status(200).json({user});
             }else{
                 console.log("User '" + user.username + "' doesn't exist");
-                res.status(500).json({});
+                res.status(500).json({user});
             };    
         });
 };
