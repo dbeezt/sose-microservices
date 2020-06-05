@@ -3,7 +3,6 @@ const cookieSession = require("cookie-session");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const path = require('path');
-const morgan = require("morgan");
 const app = express();
 
 // const userRoute = require('LINK_TO_USER_MICROSERVICE');

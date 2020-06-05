@@ -1,6 +1,6 @@
-const session = require("express-session");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
+const cookieSession = require("cookie-session");
 const express = require('express');
 const app = express();
 const MovieController = require('./controller/movie');
@@ -19,10 +19,9 @@ app.use((req, res, next) => {
 });
 
 app.use(cookieParser());
-app.use(session(
-    {'secret': 'test',
-     'saveUninitialized': true,
-     'resave': true}
+app.use(cookieSession(
+    {name: 'session',
+     keys: ['user', 'guest']}
 ));
 
 app.get('/', (req, res) => {
