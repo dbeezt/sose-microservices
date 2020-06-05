@@ -15,7 +15,10 @@ block content
             - }else{
               | No description provided.
             - }
-          a.card-link(href='http://localhost:8080/movie/' + movie._id + '/review', style='float: right;') Post Review
+
+          - if(guest != true){
+            a.card-link(href='http://localhost:8080/reviews/movie/' + movie._id, style='float: right;') Post Review
+          - }
 
           - if(movie.reviews.length >= 1){
             br
