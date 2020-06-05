@@ -28,21 +28,12 @@ html
                 li.nav-item.dropdown
                   a#moviesDropdown.nav-link.dropdown-toggle(href='/movies', role='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false') Movies
                   .dropdown-menu(aria-labelledby='navbarDropdown')
-                    a.dropdown-menu
+                    a.dropdown-item(href='/movies') List
+                    a.dropdown-item(href='/movies/search') Search
+                    a.dropdown-item(href='http://localhost:8080/movies') Add 
                 li.nav-item
                   a.nav-link(href='/reviews') Reviews
                 li.text-right
                   a.nav-link(href='http://localhost:8080/users/logout') Logout 
     .container-fluid
       block content
-
-
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Dropdown
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="#">Action</a>
-          <a class="dropdown-item" href="#">Another action</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#">Something else here</a>
-        </div>
