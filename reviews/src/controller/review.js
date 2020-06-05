@@ -30,6 +30,9 @@ exports.ListSingleReview = (req, res) => {
     });
 };
 
+exports.LoadReviewCreationPage = (req, res, next) => {
+    res.render('createReview');
+}
 
 exports.AddReview = (req, res, next) => {
     const author = req.session.user || req.body.author || "unknown"
