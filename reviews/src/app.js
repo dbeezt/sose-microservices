@@ -35,6 +35,7 @@ app.get('/', (req, res) => {
 // app.get('/movie/:movie', ReviewController.ListAllReviewsForMovie);
 app.get('/movie/:id', ReviewController.ListSingleReview);
 app.post('/movie', ReviewController.AddReview);
+app.get('/movie', ReviewController.LoadReviewCreationPage);
 app.post('/update/:id', ReviewController.UpdateReview);
 app.post('/delete/:id', ReviewController.DeleteReview);
 
